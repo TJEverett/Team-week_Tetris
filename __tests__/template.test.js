@@ -29,4 +29,12 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[18]).toEqual(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);
     expect(reusableGame.gameArray[19]).toEqual(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);
   });
+
+  test('should apply square shape correctly', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[0][6]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][6]).toEqual("M");
+  });
 });

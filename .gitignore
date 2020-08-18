@@ -6,3 +6,4 @@ dist/
 obj/
 .env
 bin/
+coverage/
