@@ -78,4 +78,107 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[1][4]).toEqual("M");
     expect(reusableGame.gameArray[1][5]).toEqual("M");
   });
+
+  test('should prevent movement off the board', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    reusableGame.moveSideways("left");
+    expect(reusableGame.gameArray[0][0]).toEqual("M");
+    expect(reusableGame.gameArray[0][1]).toEqual("M");
+    expect(reusableGame.gameArray[1][0]).toEqual("M");
+    expect(reusableGame.gameArray[1][1]).toEqual("M");
+  });
+
+  test('check if left/right movement method detects B', () => {
+    reusableGame.gameArray[0][11] = "B";
+
+
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    expect(reusableGame.gameArray[0][11]).toEqual("B");
+    expect(reusableGame.gameArray[0][10]).toEqual("M");
+    expect(reusableGame.gameArray[0][9]).toEqual("M");
+    expect(reusableGame.gameArray[1][10]).toEqual("M");
+    expect(reusableGame.gameArray[1][9]).toEqual("M");
+  });
+
+  test('check if down movement method detects bottom', () => {
+    
+
+    reusableGame.putPieceOnBoard("squareShape");
+    
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();  
+
+    expect(reusableGame.gameArray[18][5]).toEqual("B");
+    expect(reusableGame.gameArray[18][6]).toEqual("B");
+    expect(reusableGame.gameArray[19][5]).toEqual("B");
+    expect(reusableGame.gameArray[19][6]).toEqual("B");
+    
+  });
+
+  test('check if down movement method hits b', () => {
+    
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.gameArray[2][5] = "B";
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    
+    expect(reusableGame.gameArray[2][5]).toEqual("B");
+    expect(reusableGame.gameArray[0][5]).toEqual("B");
+    expect(reusableGame.gameArray[0][6]).toEqual("B");
+    expect(reusableGame.gameArray[1][5]).toEqual("B");
+    expect(reusableGame.gameArray[1][6]).toEqual("B");
+    
+  });
+
+
 });
