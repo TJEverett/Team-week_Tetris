@@ -14,7 +14,6 @@ export class Shape {
     this.pZshape = 1;
     this.pReverseZShape = 1;
 
-    this.currentPiece = [[],[],[],[]];
 
     this.squareShape = [
       [0, 5],
@@ -46,13 +45,13 @@ export class Shape {
       [2, 5],
       [3, 5]
     ];
-    this.zShape = [
+    this.reverseZShape = [
       [0, 6],
       [0, 5],
       [1, 5],
       [1, 4]
     ];
-    this.reverseZShape = [
+    this.zShape = [
       [0, 5],
       [0, 4],
       [1, 5],

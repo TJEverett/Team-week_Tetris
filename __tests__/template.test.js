@@ -37,4 +37,45 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[1][5]).toEqual("M");
     expect(reusableGame.gameArray[1][6]).toEqual("M");
   });
+
+  test("should update the currentPiece variable to match the location of the new piece", () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    expect(reusableGame.currentPiece).toEqual(reusableGame.shape.squareShape);
+  });
+
+  test('should remove piece from board', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.erasePieceFromBoard();
+    expect(reusableGame.gameArray[0][5]).toEqual("N");
+    expect(reusableGame.gameArray[0][6]).toEqual("N");
+    expect(reusableGame.gameArray[1][5]).toEqual("N");
+    expect(reusableGame.gameArray[1][6]).toEqual("N");
+  });
+
+  test('should move piece down by 1', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.goDownByOne();
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][6]).toEqual("M");
+    expect(reusableGame.gameArray[2][5]).toEqual("M");
+    expect(reusableGame.gameArray[2][6]).toEqual("M");
+  });
+
+  test('should move piece to the right by 1', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.moveSideways("right");
+    expect(reusableGame.gameArray[0][6]).toEqual("M");
+    expect(reusableGame.gameArray[0][7]).toEqual("M");
+    expect(reusableGame.gameArray[1][6]).toEqual("M");
+    expect(reusableGame.gameArray[1][7]).toEqual("M");
+  });
+
+  test('should move piece to the left by 1', () => {
+    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.moveSideways("left");
+    expect(reusableGame.gameArray[0][4]).toEqual("M");
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][4]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+  });
 });
