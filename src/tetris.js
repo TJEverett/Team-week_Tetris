@@ -31,8 +31,6 @@ export class Game {
 
   }
 
-  
-
   drawOnBoard(arr, state) {
     let block1 = arr[0];
     let y = block1[0];
@@ -74,10 +72,14 @@ export class Game {
   }
 
   goDownByOne(){
-    this.erasePieceFromBoard();
-    this.currentPiece = this.currentPiece.map(item =>
-      [item[0]+=1,item[1]]);
-    this.drawOnBoard(this.currentPiece,"M");
+    if(this.checkDownMovement()) {
+      this.changeMsToBs();
+    }else{
+      this.erasePieceFromBoard();
+      this.currentPiece = this.currentPiece.map(item =>
+        [item[0]+1,item[1]]);
+      this.drawOnBoard(this.currentPiece,"M");
+    }
   }
 
   moveSideways(direction){
@@ -85,11 +87,45 @@ export class Game {
     if(direction === "left"){
       modifier = -1;
     } else if (direction === "right"){
-      modifier = +1;
+      modifier = 1;
     }
+    if(this.checkSideMovement(modifier)) return;
     this.erasePieceFromBoard();
     this.currentPiece = this.currentPiece.map(item =>
-      [item[0], item[1]+=modifier]);
+      [item[0], item[1]+modifier]);
     this.drawOnBoard(this.currentPiece, "M");
   }
+
+  checkSideMovement(modifier){
+    let collision = false;
+    let imaginaryPiece = this.currentPiece.map(item =>
+      [item[0], item[1]+modifier]);
+    for(let i = 0; i < 4; i++){
+      if (imaginaryPiece[i][1] === -1 || imaginaryPiece[i][1] === 12){
+        collision = true;
+      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B"){
+        collision = true;
+      }
+    }
+    return collision;
+  }
+
+  checkDownMovement(){
+    let collision = false;
+    let imaginaryPiece = this.currentPiece.map(item =>
+      [item[0] + 1, item[1]]);
+    for (let i = 0; i < 4; i++) {
+      if (imaginaryPiece[i][0] === 20) {
+        collision = true;
+      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B") {
+        collision = true;
+      }
+    }
+    return collision;
+  }
+
+  changeMsToBs(){
+    this.drawOnBoard(this.currentPiece, "B");
+  }
+  //arr.some(item => {return (item[0] > 11 || item[0] < 0)}); 
 }
