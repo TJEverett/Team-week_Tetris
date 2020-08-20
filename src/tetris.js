@@ -1,7 +1,10 @@
 import { Shape } from './shape.js';
+import $ from 'jquery'; 
 export class Game {
 
   constructor() {
+  
+    this.currentState;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
     this.rows = 0;
@@ -50,11 +53,22 @@ export class Game {
     let block4 = arr[3];
     let y4 = block4[0];
     let x4 = block4[1];
-    this.gameArray[y4][x4] = state; 
-
-   
+    this.gameArray[y4][x4] = state;  
   }
-  findCompletedRows() {}
+
+  findCompletedRows() {
+    return this.gameArray.reduce(function(accumulator, current, idx){
+      if (current.every(item => {return item == "B"})){
+        accumulator.push(idx);
+      }
+      return accumulator; 
+    },[]);
+  }
+
+  removeCompletedRowsAndAddNewRows(arr){
+    arr.map(function(){ item => this.gameArray.splice(item, 1)});
+    arr.forEach(function() {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
+  }
   
   putPieceOnBoard(str) {
     let iv = this.shape[str];

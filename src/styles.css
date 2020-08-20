@@ -2,26 +2,34 @@ h1 {
     font: sans-serif;
 }
 
-pElShape {
+.ElShape {
     color: #FF971C;
 }
 
-pReverseElShape {
+.ReverseElShape {
     color: #0341AE;
 }
 
-pTBlockShape {
+.TBlockShape {
     color: #a400ff;
 }
 
-pTetrisShape {
+.TetrisShape {
     color: #00efff;
 }
 
-pZshape {
+.Zshape {
     color: #FF3212;
 }
 
-pReverseZShape {
+.ReverseZShape {
     color: #72CB3B;
+}
+
+.grid {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: 1px solid #000;
+    display: inline-block;
 }

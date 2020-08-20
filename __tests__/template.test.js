@@ -96,8 +96,6 @@ describe('Game Object Creation', () => {
 
   test('check if left/right movement method detects B', () => {
     reusableGame.gameArray[0][11] = "B";
-
-
     reusableGame.putPieceOnBoard("squareShape");
     reusableGame.moveSideways("right");
     reusableGame.moveSideways("right");
@@ -126,10 +124,7 @@ describe('Game Object Creation', () => {
   });
 
   test('check if down movement method detects bottom', () => {
-    
-
     reusableGame.putPieceOnBoard("squareShape");
-    
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
@@ -161,11 +156,9 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[18][6]).toEqual("B");
     expect(reusableGame.gameArray[19][5]).toEqual("B");
     expect(reusableGame.gameArray[19][6]).toEqual("B");
-    
   });
 
   test('check if down movement method hits b', () => {
-    
     reusableGame.putPieceOnBoard("squareShape");
     reusableGame.gameArray[2][5] = "B";
     reusableGame.goDownByOne();
@@ -177,8 +170,24 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[0][6]).toEqual("B");
     expect(reusableGame.gameArray[1][5]).toEqual("B");
     expect(reusableGame.gameArray[1][6]).toEqual("B");
-    
   });
+
+
+  test('check if code is able to find completed rows', () => {
+    reusableGame.gameArray[7] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    reusableGame.gameArray[13] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    let rows = reusableGame.findCompletedRows();
+    expect(rows).toEqual([7, 13]);
+  });
+
+  test('if code code can remove completed rows and add new rows', () => {
+    reusableGame.gameArray[7] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    reusableGame.gameArray[13] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    let rows = reusableGame.findCompletedRows();
+    reusableGame.removeCompletedRowsAndAddNewRows(rows);
+    expect(rows).toEqual([]);
+  });
+
 
 
 });

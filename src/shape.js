@@ -7,14 +7,6 @@ export class Shape {
     this.cZShape = [0,5];
     this.cReverseZShape = [0,5];
 
-    this.pElShape = 1;
-    this.pReverseElShape = 1;
-    this.pTBlockShape = 1;
-    this.pTetrisShape = 1;
-    this.pZshape = 1;
-    this.pReverseZShape = 1;
-
-
     this.squareShape = [
       [0, 5],
       [0, 6],
