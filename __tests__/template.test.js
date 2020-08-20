@@ -180,14 +180,48 @@ describe('Game Object Creation', () => {
     expect(rows).toEqual([7, 13]);
   });
 
-  test('if code code can remove completed rows and add new rows', () => {
+  test('check if code code can remove completed rows', () => {
     reusableGame.gameArray[7] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
     reusableGame.gameArray[13] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
     let rows = reusableGame.findCompletedRows();
     reusableGame.removeCompletedRowsAndAddNewRows(rows);
+    rows = reusableGame.findCompletedRows();
     expect(rows).toEqual([]);
   });
 
+  test('check if code code can add new rows', () => {
+    reusableGame.gameArray[7] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    reusableGame.gameArray[13] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
+    let rows = reusableGame.findCompletedRows();
+    reusableGame.removeCompletedRowsAndAddNewRows(rows);
+    expect(reusableGame.gameArray.length).toEqual(20);
+    expect(reusableGame.gameArray[0]).toEqual(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);
+    expect(reusableGame.gameArray[1]).toEqual(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);
+  });
 
+  test('check that we can add a tBlockShape', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    expect(reusableGame.gameArray[0][4]).toEqual("M");
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[0][6]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+  });
+
+  test('check that we can move a tBlockShape', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    expect(reusableGame.gameArray[1][4]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][6]).toEqual("M");
+    expect(reusableGame.gameArray[2][5]).toEqual("M");
+  });
+
+  // test('check that we can rotate a shape', () => {
+  //   reusableGame.putPieceOnBoard("tBlockShape");
+  //   reusableGame.goDownByOne();
+  //   let newPosition = reusableGame.returnTransFormedPosition(reusableGame.transform["tBlockShape"]["1"]);
+  //   console.log(newPosition);
+  //   expect(newPosition).toEqual([[0,5],[1,4],[2,5],[1,5]]);
+  // });
 
 });

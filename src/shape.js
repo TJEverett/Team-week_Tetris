@@ -1,11 +1,11 @@
 export class Shape {
   constructor() {
-    this.cElShape = [0, 5];
-    this.cReverseElShape = [0, 5];
-    this.cTBlockShape = [0, 5];
-    this.cTetrisShape = [1, 5];
-    this.cZShape = [0,5];
-    this.cReverseZShape = [0,5];
+    this.elShapeC = [0, 5];
+    this.reverseElShapeC = [0, 5];
+    this.tBlockShapeC = [0, 5];
+    this.tetrisShapeC = [2, 5];
+    this.zShapeC = [0,5];
+    this.reverseZShapeC = [0,5];
 
     this.squareShape = [
       [0, 5],
@@ -14,9 +14,9 @@ export class Shape {
       [1, 6]
     ];
     this.elShape = [
-      [0, 6],
-      [0, 5],
       [0, 4],
+      [0, 5],
+      [0, 6],
       [1, 4]
     ];
     this.reverseElShape = [
@@ -38,14 +38,14 @@ export class Shape {
       [3, 5]
     ];
     this.reverseZShape = [
-      [0, 6],
       [0, 5],
+      [0, 6],
       [1, 5],
       [1, 4]
     ];
     this.zShape = [
-      [0, 5],
       [0, 4],
+      [0, 5],
       [1, 5],
       [1, 6]
     ];

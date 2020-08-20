@@ -1,4 +1,5 @@
 import { Shape } from './shape.js';
+import { Transforms } from './transforms.js';
 import $ from 'jquery'; 
 export class Game {
 
@@ -7,7 +8,9 @@ export class Game {
     this.currentState;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
+    this.currentShape = "";
     this.rows = 0;
+    this.transform = new Transforms();
     this.shape = new Shape();
     this.gameArray = [
       ["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"],
@@ -56,6 +59,23 @@ export class Game {
     this.gameArray[y4][x4] = state;  
   }
 
+  returnTransFormedPosition(transform){
+    return transform.map(item => {
+      return [this.centerPiece[0] + item[0],this.centerPiece[1] + item [1]];
+    }).concat(this.centerPiece);
+  }
+
+  drawTransform(transform){
+    this.erasePieceFromBoard();
+    let arr = this.returnTransFormedPosition(transform);
+    this.currentPiece = arr;
+    this.drawOnBoard(arr, "M");
+  }
+
+  // nextTransform(direction){
+
+  // }
+
   findCompletedRows() {
     return this.gameArray.reduce(function(accumulator, current, idx){
       if (current.every(item => {return item == "B"})){
@@ -66,8 +86,9 @@ export class Game {
   }
 
   removeCompletedRowsAndAddNewRows(arr){
-    arr.map(function(){ item => this.gameArray.splice(item, 1)});
-    arr.forEach(function() {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
+    arr = arr.reverse();
+    arr.map(item => this.gameArray.splice(item, 1));
+    arr.forEach(item => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
   }
   
   putPieceOnBoard(str) {
@@ -76,7 +97,7 @@ export class Game {
     this.currentPiece = this.shape[str].map(item => {
       return [...item];
     });
-
+    this.centerPiece = this.shape[str + "C"]
     this.drawOnBoard(iv, "M");
   }
 
@@ -92,6 +113,7 @@ export class Game {
       this.erasePieceFromBoard();
       this.currentPiece = this.currentPiece.map(item =>
         [item[0]+1,item[1]]);
+      //this.centerPiece[0] = this.centerPiece[0] + 1;
       this.drawOnBoard(this.currentPiece,"M");
     }
   }
@@ -107,6 +129,7 @@ export class Game {
     this.erasePieceFromBoard();
     this.currentPiece = this.currentPiece.map(item =>
       [item[0], item[1]+modifier]);
+    //this.centerPiece[1] = this.centerPiece[1] + modifier;
     this.drawOnBoard(this.currentPiece, "M");
   }
 
