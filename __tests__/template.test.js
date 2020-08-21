@@ -216,12 +216,95 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[2][5]).toEqual("M");
   });
 
-  // test('check that we can rotate a shape', () => {
-  //   reusableGame.putPieceOnBoard("tBlockShape");
-  //   reusableGame.goDownByOne();
-  //   let newPosition = reusableGame.returnTransFormedPosition(reusableGame.transform["tBlockShape"]["1"]);
-  //   console.log(newPosition);
-  //   expect(newPosition).toEqual([[0,5],[1,4],[2,5],[1,5]]);
-  // });
+  test('check that we can rotate a shape', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    let newPosition = reusableGame.returnTransFormedPosition(reusableGame.transform["tBlockShape"]["1"]);
+    expect(newPosition).toEqual([[0,5],[1,4],[2,5],[1,5]]);
+  });
 
+  test('that we can draw transformed piece on board', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    reusableGame.drawTransform(reusableGame.transform["tBlockShape"]["1"]);
+    
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][4]).toEqual("M");
+    expect(reusableGame.gameArray[2][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+  });
+
+  test('that we can get the next transformed piece', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    reusableGame.nextTransform();
+    
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][4]).toEqual("M");
+    expect(reusableGame.gameArray[2][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+  });
+
+  test('that we can transform a piece through a full sequence', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    reusableGame.nextTransform();
+    reusableGame.nextTransform();
+    reusableGame.nextTransform();
+    reusableGame.nextTransform();
+    reusableGame.nextTransform();
+    
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[1][4]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+    expect(reusableGame.gameArray[2][5]).toEqual("M");
+  });
+
+  test('that we cant transform a piece through the ceiling', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    
+    reusableGame.nextTransform();
+    
+    expect(reusableGame.gameArray[0][4]).toEqual("M");
+    expect(reusableGame.gameArray[0][5]).toEqual("M");
+    expect(reusableGame.gameArray[0][6]).toEqual("M");
+    expect(reusableGame.gameArray[1][5]).toEqual("M");
+  });
+
+  test('that we cant transform a piece through the wall', () => {
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    reusableGame.nextTransform();
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.nextTransform();
+    
+    expect(reusableGame.gameArray[0][11]).toEqual("M");
+    expect(reusableGame.gameArray[1][10]).toEqual("M");
+    expect(reusableGame.gameArray[1][11]).toEqual("M");
+    expect(reusableGame.gameArray[2][11]).toEqual("M");
+  });
+
+  test('that we cant transform a piece through an already placed piece', () => {
+    reusableGame.gameArray[1][11] = "B";
+    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.goDownByOne();
+    reusableGame.nextTransform();
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.moveSideways("right");
+    reusableGame.nextTransform();
+
+    expect(reusableGame.gameArray[0][10]).toEqual("M");
+    expect(reusableGame.gameArray[1][9]).toEqual("M");
+    expect(reusableGame.gameArray[1][10]).toEqual("M");
+    expect(reusableGame.gameArray[2][10]).toEqual("M");
+    expect(reusableGame.gameArray[1][11]).toEqual("B");
+  });
 });

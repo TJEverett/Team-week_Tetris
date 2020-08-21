@@ -3,6 +3,14 @@ import 'bootstrap';
 import './styles.css';
 import { Game } from './tetris.js';
 
+function createGrid() {
+  for (var rows = 0; rows < 12; rows++) {
+    for (var columns = 0; columns < 20; columns++) {
+      $("#container").append("<div class='grid'></div>");
+    }
+  }
+}
+
 $(document).ready(function () {
   $('#start').click(function () {
     let tetris = new Game();

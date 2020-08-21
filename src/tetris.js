@@ -9,6 +9,7 @@ export class Game {
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
     this.currentShape = "";
+    this.currentTransform = 0;
     this.rows = 0;
     this.transform = new Transforms();
     this.shape = new Shape();
@@ -34,7 +35,6 @@ export class Game {
       ["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"],
       ["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]
     ];
-
   }
 
   drawOnBoard(arr, state) {
@@ -60,9 +60,11 @@ export class Game {
   }
 
   returnTransFormedPosition(transform){
-    return transform.map(item => {
+    let arr = transform.map(item => {
       return [this.centerPiece[0] + item[0],this.centerPiece[1] + item [1]];
-    }).concat(this.centerPiece);
+    });
+    arr.push(this.centerPiece);
+    return arr;
   }
 
   drawTransform(transform){
@@ -72,9 +74,23 @@ export class Game {
     this.drawOnBoard(arr, "M");
   }
 
-  // nextTransform(direction){
-
-  // }
+  nextTransform(){
+    let length = Object.keys(this.transform[this.currentShape]).length - 1;
+    let next;
+    if(this.currentTransform === length){
+      next = this.transform[this.currentShape][0];
+    }else{ 
+      next = this.transform[this.currentShape][this.currentTransform + 1];
+    }
+    if(!this.checkTransformMovement(next)){
+      if(this.currentTransform === length){
+        this.currentTransform = 0;
+      }else{
+        this.currentTransform += 1;
+      }
+    }
+    this.drawTransform(this.transform[this.currentShape][this.currentTransform]);
+  }
 
   findCompletedRows() {
     return this.gameArray.reduce(function(accumulator, current, idx){
@@ -88,7 +104,7 @@ export class Game {
   removeCompletedRowsAndAddNewRows(arr){
     arr = arr.reverse();
     arr.map(item => this.gameArray.splice(item, 1));
-    arr.forEach(item => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
+    arr.forEach(_ => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
   }
   
   putPieceOnBoard(str) {
@@ -97,12 +113,13 @@ export class Game {
     this.currentPiece = this.shape[str].map(item => {
       return [...item];
     });
-    this.centerPiece = this.shape[str + "C"]
+    this.currentTransform = 0;
+    this.currentShape = str;
+    this.centerPiece = this.shape[str + "C"];
     this.drawOnBoard(iv, "M");
   }
 
-  erasePieceFromBoard() 
-  {
+  erasePieceFromBoard() {
     this.drawOnBoard(this.currentPiece,"N");
   }
 
@@ -113,7 +130,7 @@ export class Game {
       this.erasePieceFromBoard();
       this.currentPiece = this.currentPiece.map(item =>
         [item[0]+1,item[1]]);
-      //this.centerPiece[0] = this.centerPiece[0] + 1;
+      this.centerPiece[0] += 1;
       this.drawOnBoard(this.currentPiece,"M");
     }
   }
@@ -129,8 +146,21 @@ export class Game {
     this.erasePieceFromBoard();
     this.currentPiece = this.currentPiece.map(item =>
       [item[0], item[1]+modifier]);
-    //this.centerPiece[1] = this.centerPiece[1] + modifier;
+    this.centerPiece[1] += modifier;
     this.drawOnBoard(this.currentPiece, "M");
+  }
+
+  checkTransformMovement(transform){
+    let collision = false;
+    let imaginaryPiece = this.returnTransFormedPosition(transform);
+    for(let i = 0; i < 4; i++){
+      if (imaginaryPiece[i][1] === -1 || imaginaryPiece[i][1] === 12 || imaginaryPiece[i][0] === -1 || imaginaryPiece[i][0] === 20){
+        collision = true;
+      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B"){
+        collision = true;
+      }
+    }
+    return collision;
   }
 
   checkSideMovement(modifier){

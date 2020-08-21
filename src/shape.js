@@ -6,6 +6,7 @@ export class Shape {
     this.tetrisShapeC = [2, 5];
     this.zShapeC = [0,5];
     this.reverseZShapeC = [0,5];
+    this.squareShapeC = [0,5];
 
     this.squareShape = [
       [0, 5],
