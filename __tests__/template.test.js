@@ -79,7 +79,7 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[1][5]).toEqual("M");
   });
 
-  test('should prevent movement off the board', () => {
+  test('should prevent side movement off the board', () => {
     reusableGame.putPieceOnBoard("squareShape");
     reusableGame.moveSideways("left");
     reusableGame.moveSideways("left");
@@ -94,7 +94,7 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[1][1]).toEqual("M");
   });
 
-  test('check if left/right movement method detects B', () => {
+  test('check if left/right movement method detects a block in the way', () => {
     reusableGame.gameArray[0][11] = "B";
     reusableGame.putPieceOnBoard("squareShape");
     reusableGame.moveSideways("right");
@@ -152,13 +152,13 @@ describe('Game Object Creation', () => {
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();  
 
-    expect(reusableGame.gameArray[18][5]).toEqual("B");
-    expect(reusableGame.gameArray[18][6]).toEqual("B");
-    expect(reusableGame.gameArray[19][5]).toEqual("B");
-    expect(reusableGame.gameArray[19][6]).toEqual("B");
+    expect(reusableGame.gameArray[18][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[18][6]).toEqual("squareShape");
+    expect(reusableGame.gameArray[19][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[19][6]).toEqual("squareShape");
   });
 
-  test('check if down movement method hits b', () => {
+  test('check if down movement method hits B', () => {
     reusableGame.putPieceOnBoard("squareShape");
     reusableGame.gameArray[2][5] = "B";
     reusableGame.goDownByOne();
@@ -166,10 +166,10 @@ describe('Game Object Creation', () => {
     reusableGame.goDownByOne();
     
     expect(reusableGame.gameArray[2][5]).toEqual("B");
-    expect(reusableGame.gameArray[0][5]).toEqual("B");
-    expect(reusableGame.gameArray[0][6]).toEqual("B");
-    expect(reusableGame.gameArray[1][5]).toEqual("B");
-    expect(reusableGame.gameArray[1][6]).toEqual("B");
+    expect(reusableGame.gameArray[0][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[0][6]).toEqual("squareShape");
+    expect(reusableGame.gameArray[1][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[1][6]).toEqual("squareShape");
   });
 
 

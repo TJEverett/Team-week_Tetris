@@ -4,7 +4,6 @@ import $ from 'jquery';
 export class Game {
 
   constructor() {
-  
     this.currentState;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
@@ -94,7 +93,7 @@ export class Game {
 
   findCompletedRows() {
     return this.gameArray.reduce(function(accumulator, current, idx){
-      if (current.every(item => {return item == "B"})){
+      if (current.every(item => {return !(item === "N")})){
         accumulator.push(idx);
       }
       return accumulator; 
@@ -125,7 +124,7 @@ export class Game {
 
   goDownByOne(){
     if(this.checkDownMovement()) {
-      this.changeMsToBs();
+      this.changeMsToColors();
     }else{
       this.erasePieceFromBoard();
       this.currentPiece = this.currentPiece.map(item =>
@@ -142,57 +141,43 @@ export class Game {
     } else if (direction === "right"){
       modifier = 1;
     }
+    
     if(this.checkSideMovement(modifier)) return;
+    
     this.erasePieceFromBoard();
     this.currentPiece = this.currentPiece.map(item =>
       [item[0], item[1]+modifier]);
+    
     this.centerPiece[1] += modifier;
     this.drawOnBoard(this.currentPiece, "M");
   }
 
   checkTransformMovement(transform){
-    let collision = false;
     let imaginaryPiece = this.returnTransFormedPosition(transform);
-    for(let i = 0; i < 4; i++){
-      if (imaginaryPiece[i][1] === -1 || imaginaryPiece[i][1] === 12 || imaginaryPiece[i][0] === -1 || imaginaryPiece[i][0] === 20){
-        collision = true;
-      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B"){
-        collision = true;
-      }
-    }
-    return collision;
+    return imaginaryPiece.some(item => (item[0] > 19) || (item[0] < 0)
+    || (item[1] > 11) || (item[1] < 0)
+    || (!(this.gameArray[item[0]][item[1]] === "N")
+    && !(this.gameArray[item[0]][item[1]] === "M")));
   }
 
   checkSideMovement(modifier){
-    let collision = false;
     let imaginaryPiece = this.currentPiece.map(item =>
       [item[0], item[1]+modifier]);
-    for(let i = 0; i < 4; i++){
-      if (imaginaryPiece[i][1] === -1 || imaginaryPiece[i][1] === 12){
-        collision = true;
-      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B"){
-        collision = true;
-      }
-    }
-    return collision;
+    let result = imaginaryPiece.some(item => ((item[1] > 12) || (item[1] < 0))
+    || !(this.gameArray[item[0]][item[1]] === "N")
+    && !(this.gameArray[item[0]][item[1]] === "M"));
+    return result;
   }
 
   checkDownMovement(){
-    let collision = false;
-    let imaginaryPiece = this.currentPiece.map(item =>
-      [item[0] + 1, item[1]]);
-    for (let i = 0; i < 4; i++) {
-      if (imaginaryPiece[i][0] === 20) {
-        collision = true;
-      }else if (this.gameArray[imaginaryPiece[i][0]][imaginaryPiece[i][1]] === "B") {
-        collision = true;
-      }
-    }
-    return collision;
+    let imaginaryPiece = this.currentPiece.map(item => [item[0] + 1, item[1]]);
+    let result = imaginaryPiece.some(item => (item[0] > 19)
+    || !(this.gameArray[item[0]][item[1]] === "N")
+    && !(this.gameArray[item[0]][item[1]] === "M"));
+    return result;
   }
 
-  changeMsToBs(){
-    this.drawOnBoard(this.currentPiece, "B");
-  }
-  //arr.some(item => {return (item[0] > 11 || item[0] < 0)}); 
+  changeMsToColors(){
+    this.drawOnBoard(this.currentPiece, this.currentShape);
+  } 
 }
