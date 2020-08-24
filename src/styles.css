@@ -2,28 +2,32 @@ h1 {
     font: sans-serif;
 }
 
-.ElShape {
+.elShape {
     color: #FF971C;
 }
 
-.ReverseElShape {
+.reverseElShape {
     color: #0341AE;
 }
 
-.TBlockShape {
+.tBlockShape {
     color: #a400ff;
 }
 
-.TetrisShape {
+.tetrisShape {
     color: #00efff;
 }
 
-.Zshape {
+.zshape {
     color: #FF3212;
 }
 
-.ReverseZShape {
+.reverseZShape {
     color: #72CB3B;
+}
+
+.squareShape {
+    color: #f4f800;
 }
 
 .grid {

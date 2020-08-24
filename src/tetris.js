@@ -1,6 +1,6 @@
 import { Shape } from './shape.js';
 import { Transforms } from './transforms.js';
-import $ from 'jquery'; 
+
 export class Game {
 
   constructor() {
@@ -37,11 +37,13 @@ export class Game {
   }
 
   drawOnBoard(arr, state) {
+    console.log(arr);
     let block1 = arr[0];
     let y = block1[0];
     let x = block1[1];
+   
     this.gameArray[y][x] = state;
-    
+  
     let block2 = arr[1];
     let y2 = block2[0];
     let x2 = block2[1];
@@ -108,7 +110,7 @@ export class Game {
   
   putPieceOnBoard(str) {
     let iv = this.shape[str];
-
+    console.log(str);
     this.currentPiece = this.shape[str].map(item => {
       return [...item];
     });
@@ -118,6 +120,13 @@ export class Game {
     this.drawOnBoard(iv, "M");
   }
 
+  putRandomPieceOnBoard(){
+    let array = ["elShape","reverseElShape","tBlockShape","tetrisShape","zShape","reverseZShape","squareShape"];
+    let random = Math.floor(Math.random()* 7);
+    this.putPieceOnBoard(array[random]);
+
+  }
+
   erasePieceFromBoard() {
     this.drawOnBoard(this.currentPiece,"N");
   }
@@ -125,6 +134,9 @@ export class Game {
   goDownByOne(){
     if(this.checkDownMovement()) {
       this.changeMsToColors();
+      let arr = this.findCompletedRows();
+      this.removeCompletedRowsAndAddNewRows(arr);
+      this.putRandomPieceOnBoard();
     }else{
       this.erasePieceFromBoard();
       this.currentPiece = this.currentPiece.map(item =>
@@ -154,30 +166,32 @@ export class Game {
 
   checkTransformMovement(transform){
     let imaginaryPiece = this.returnTransFormedPosition(transform);
-    return imaginaryPiece.some(item => (item[0] > 19) || (item[0] < 0)
+    let result = imaginaryPiece.some(item => (item[0] > 19) || (item[0] < 0)
     || (item[1] > 11) || (item[1] < 0)
     || (!(this.gameArray[item[0]][item[1]] === "N")
     && !(this.gameArray[item[0]][item[1]] === "M")));
+    return result;
   }
 
   checkSideMovement(modifier){
     let imaginaryPiece = this.currentPiece.map(item =>
       [item[0], item[1]+modifier]);
     let result = imaginaryPiece.some(item => ((item[1] > 12) || (item[1] < 0))
-    || !(this.gameArray[item[0]][item[1]] === "N")
-    && !(this.gameArray[item[0]][item[1]] === "M"));
+    || (!(this.gameArray[item[0]][item[1]] === "N")
+    && !(this.gameArray[item[0]][item[1]] === "M")));
     return result;
   }
 
   checkDownMovement(){
     let imaginaryPiece = this.currentPiece.map(item => [item[0] + 1, item[1]]);
     let result = imaginaryPiece.some(item => (item[0] > 19)
-    || !(this.gameArray[item[0]][item[1]] === "N")
-    && !(this.gameArray[item[0]][item[1]] === "M"));
+    || (!(this.gameArray[item[0]][item[1]] === "N")
+    && !(this.gameArray[item[0]][item[1]] === "M")));
     return result;
   }
 
   changeMsToColors(){
     this.drawOnBoard(this.currentPiece, this.currentShape);
+    
   } 
 }

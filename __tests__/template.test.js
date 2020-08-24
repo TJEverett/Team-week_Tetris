@@ -160,16 +160,23 @@ describe('Game Object Creation', () => {
 
   test('check if down movement method hits B', () => {
     reusableGame.putPieceOnBoard("squareShape");
-    reusableGame.gameArray[2][5] = "B";
+    reusableGame.gameArray[10][5] = "B";
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
+    reusableGame.goDownByOne();
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
     
-    expect(reusableGame.gameArray[2][5]).toEqual("B");
-    expect(reusableGame.gameArray[0][5]).toEqual("squareShape");
-    expect(reusableGame.gameArray[0][6]).toEqual("squareShape");
-    expect(reusableGame.gameArray[1][5]).toEqual("squareShape");
-    expect(reusableGame.gameArray[1][6]).toEqual("squareShape");
+    expect(reusableGame.gameArray[10][5]).toEqual("B");
+    expect(reusableGame.gameArray[8][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[8][6]).toEqual("squareShape");
+    expect(reusableGame.gameArray[9][5]).toEqual("squareShape");
+    expect(reusableGame.gameArray[9][6]).toEqual("squareShape");
   });
 
 
