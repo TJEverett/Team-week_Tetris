@@ -37,7 +37,8 @@ export class Game {
   }
 
   drawOnBoard(arr, state) {
-    console.log(arr);
+    // console.log("draw on board");
+    // console.log(arr);
     let block1 = arr[0];
     let y = block1[0];
     let x = block1[1];
@@ -64,7 +65,7 @@ export class Game {
     let arr = transform.map(item => {
       return [this.centerPiece[0] + item[0],this.centerPiece[1] + item [1]];
     });
-    arr.push(this.centerPiece);
+    arr.push([...this.centerPiece]);
     return arr;
   }
 
@@ -110,13 +111,12 @@ export class Game {
   
   putPieceOnBoard(str) {
     let iv = this.shape[str];
-    console.log(str);
     this.currentPiece = this.shape[str].map(item => {
       return [...item];
     });
     this.currentTransform = 0;
     this.currentShape = str;
-    this.centerPiece = this.shape[str + "C"];
+    this.centerPiece = [...this.shape[str + "C"]];
     this.drawOnBoard(iv, "M");
   }
 
@@ -192,6 +192,5 @@ export class Game {
 
   changeMsToColors(){
     this.drawOnBoard(this.currentPiece, this.currentShape);
-    
   } 
 }
