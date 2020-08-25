@@ -2,14 +2,9 @@ import $ from 'jquery';
 import 'bootstrap';
 import './styles.css';
 import { Game } from './tetris.js';
-
-// function createGrid() {
-//   for (var rows = 0; rows < 12; rows++) {
-//     for (var columns = 0; columns < 20; columns++) {
-//       $("#container").append("<div class='grid'></div>");
-//     }
-//   }
-// }
+import {getNextGrid} from './nextgrid.js';
+let game = new Game(); 
+let interval;
 let colors = {
   "N": "black",
   "elShape": "#FF971C",
@@ -22,15 +17,38 @@ let colors = {
 
 };
 
-
 $(document).ready(function () {
   
+
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
-  let game = new Game();
+  
+  // let myMusic = new Audio("./Tetris.mp3");
   let gameArray = game.gameArray;
 
+  let canvas2 = document.getElementById("nextpiece");
+  var ctx2 = canvas2.getContext("2d");
+
+  let canvas3 = document.getElementById("score");
+  let ctx3 = canvas3.getContext("2d");
+  ctx3.font = "30px Arial";
+  ctx3.textAlign = "center";
+
   drawGrid();
+  drawNextPiece();
+  drawTextGrid();
+
+
+  function drawTextGrid(){
+    ctx3.fillStyle = "black";
+    ctx3.fillRect(0,0,canvas3.width,canvas3.height);
+    ctx3.fillStyle = "red";
+    if(game.gameOver === false){
+      ctx3.fillText("Score: " + game.rows, 120, 60);
+    } else {
+      ctx3.fillText("Game Over", 120, 60);
+    }
+  }
 
   function drawGrid(){
     for(let item in gameArray) {
@@ -39,27 +57,48 @@ $(document).ready(function () {
         if(color === "M"){
           color = game.currentShape;
         }
-        drawRect(colors[color],i * 40,item * 40 );
+        drawRect(colors[color],i * 30,item * 30 ,ctx);
       }
     }
   }
  
-  function drawRect(color,x,y) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x,y, 40, 40);
+  function drawNextPiece() {
+    let nextArray = getNextGrid(game);
+    for(let item in nextArray) {
+      for(let i in nextArray[item]) {
+        let color = nextArray[item][i];
+        drawRect(colors[color],i * 30,item * 30 ,ctx2);
+      }
+    }
+  }
+  function drawRect(color,x,y,ctxGeneral) {
+    ctxGeneral.fillStyle = color;
+    ctxGeneral.fillRect(x,y, 30, 30);
   }
 
   function runDownInterval(){
-    // setInterval(function(){
-    //   game.goDownByOne();
-    //   drawGrid();
-    // }, 1000);
+    interval = setInterval(function(){
+      game.goDownByOne();
+      if(game.gameOver === true){
+        clearInterval(interval);
+      }
+      drawNextPiece();
+      drawGrid();
+      drawTextGrid();
+    }, 1000);
   }
 
   $('#start').click(function () {
-    game.putRandomPieceOnBoard();
+    clearInterval(interval);
+    game = new Game();
+    gameArray = game.gameArray;
+    game.assignRandomPiece();
+    game.putPieceOnBoard();
+    game.assignRandomPiece();
+    drawNextPiece();
     drawGrid();
     runDownInterval();
+    // myMusic.play("Tetris.mp3");
   });
 
   function control(e) {
@@ -73,13 +112,13 @@ $(document).ready(function () {
       game.moveSideways("left");
       drawGrid();
     }else if (e.keyCode === 40){
-      game.goDownByOne();
-      drawGrid();
+      if(game.gameOver === false){
+        game.goDownByOne();
+        drawNextPiece();
+        drawGrid();
+      }
     }
   }
 
   document.addEventListener('keydown', control);
 });
-
-
-

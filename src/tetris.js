@@ -4,6 +4,7 @@ import { Transforms } from './transforms.js';
 export class Game {
 
   constructor() {
+    this.gameOver = false;
     this.currentState;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
@@ -12,6 +13,7 @@ export class Game {
     this.rows = 0;
     this.transform = new Transforms();
     this.shape = new Shape();
+    this.nextPiece = "";
     this.gameArray = [
       ["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"],
       ["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"],
@@ -104,26 +106,27 @@ export class Game {
   }
 
   removeCompletedRowsAndAddNewRows(arr){
+    this.rows += arr.length;
     arr = arr.reverse();
     arr.map(item => this.gameArray.splice(item, 1));
     arr.forEach(_ => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
   }
   
-  putPieceOnBoard(str) {
-    let iv = this.shape[str];
-    this.currentPiece = this.shape[str].map(item => {
+  putPieceOnBoard() {
+    let iv = this.shape[this.nextPiece];
+    this.currentPiece = this.shape[this.nextPiece].map(item => {
       return [...item];
     });
     this.currentTransform = 0;
-    this.currentShape = str;
-    this.centerPiece = [...this.shape[str + "C"]];
+    this.currentShape = this.nextPiece;
+    this.centerPiece = [...this.shape[this.nextPiece + "C"]];
     this.drawOnBoard(iv, "M");
   }
 
-  putRandomPieceOnBoard(){
+  assignRandomPiece(){
     let array = ["elShape","reverseElShape","tBlockShape","tetrisShape","zShape","reverseZShape","squareShape"];
     let random = Math.floor(Math.random()* 7);
-    this.putPieceOnBoard(array[random]);
+    this.nextPiece = array[random];
 
   }
 
@@ -136,7 +139,8 @@ export class Game {
       this.changeMsToColors();
       let arr = this.findCompletedRows();
       this.removeCompletedRowsAndAddNewRows(arr);
-      this.putRandomPieceOnBoard();
+      this.putPieceOnBoard();
+      this.assignRandomPiece();
     }else{
       this.erasePieceFromBoard();
       this.currentPiece = this.currentPiece.map(item =>
@@ -191,6 +195,13 @@ export class Game {
   }
 
   changeMsToColors(){
+    if (this.isGameOver()){
+      this.gameOver = true;
+    }
     this.drawOnBoard(this.currentPiece, this.currentShape);
-  } 
+  }
+  
+  isGameOver(){
+    return this.currentPiece.some(item => item[0] === 0);
+  }
 }

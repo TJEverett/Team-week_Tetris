@@ -31,7 +31,8 @@ describe('Game Object Creation', () => {
   });
 
   test('should apply square shape correctly', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     expect(reusableGame.gameArray[0][5]).toEqual("M");
     expect(reusableGame.gameArray[0][6]).toEqual("M");
     expect(reusableGame.gameArray[1][5]).toEqual("M");
@@ -39,12 +40,14 @@ describe('Game Object Creation', () => {
   });
 
   test("should update the currentPiece variable to match the location of the new piece", () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     expect(reusableGame.currentPiece).toEqual(reusableGame.shape.squareShape);
   });
 
   test('should remove piece from board', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.erasePieceFromBoard();
     expect(reusableGame.gameArray[0][5]).toEqual("N");
     expect(reusableGame.gameArray[0][6]).toEqual("N");
@@ -53,7 +56,8 @@ describe('Game Object Creation', () => {
   });
 
   test('should move piece down by 1', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     expect(reusableGame.gameArray[1][5]).toEqual("M");
     expect(reusableGame.gameArray[1][6]).toEqual("M");
@@ -62,7 +66,8 @@ describe('Game Object Creation', () => {
   });
 
   test('should move piece to the right by 1', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.moveSideways("right");
     expect(reusableGame.gameArray[0][6]).toEqual("M");
     expect(reusableGame.gameArray[0][7]).toEqual("M");
@@ -71,7 +76,8 @@ describe('Game Object Creation', () => {
   });
 
   test('should move piece to the left by 1', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.moveSideways("left");
     expect(reusableGame.gameArray[0][4]).toEqual("M");
     expect(reusableGame.gameArray[0][5]).toEqual("M");
@@ -80,7 +86,8 @@ describe('Game Object Creation', () => {
   });
 
   test('should prevent side movement off the board', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.moveSideways("left");
     reusableGame.moveSideways("left");
     reusableGame.moveSideways("left");
@@ -96,7 +103,8 @@ describe('Game Object Creation', () => {
 
   test('check if left/right movement method detects a block in the way', () => {
     reusableGame.gameArray[0][11] = "B";
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.moveSideways("right");
     reusableGame.moveSideways("right");
     reusableGame.moveSideways("right");
@@ -124,7 +132,8 @@ describe('Game Object Creation', () => {
   });
 
   test('check if down movement method detects bottom', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
@@ -159,7 +168,8 @@ describe('Game Object Creation', () => {
   });
 
   test('check if down movement method hits B', () => {
-    reusableGame.putPieceOnBoard("squareShape");
+    reusableGame.nextPiece = "squareShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.gameArray[10][5] = "B";
     reusableGame.goDownByOne();
     reusableGame.goDownByOne();
@@ -207,7 +217,8 @@ describe('Game Object Creation', () => {
   });
 
   test('check that we can add a tBlockShape', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     expect(reusableGame.gameArray[0][4]).toEqual("M");
     expect(reusableGame.gameArray[0][5]).toEqual("M");
     expect(reusableGame.gameArray[0][6]).toEqual("M");
@@ -215,7 +226,8 @@ describe('Game Object Creation', () => {
   });
 
   test('check that we can move a tBlockShape', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     expect(reusableGame.gameArray[1][4]).toEqual("M");
     expect(reusableGame.gameArray[1][5]).toEqual("M");
@@ -224,14 +236,16 @@ describe('Game Object Creation', () => {
   });
 
   test('check that we can rotate a shape', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     let newPosition = reusableGame.returnTransFormedPosition(reusableGame.transform["tBlockShape"]["1"]);
     expect(newPosition).toEqual([[0,5],[1,4],[2,5],[1,5]]);
   });
 
   test('that we can draw transformed piece on board', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.drawTransform(reusableGame.transform["tBlockShape"]["1"]);
     
@@ -242,7 +256,8 @@ describe('Game Object Creation', () => {
   });
 
   test('that we can get the next transformed piece', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.nextTransform();
     
@@ -253,7 +268,8 @@ describe('Game Object Creation', () => {
   });
 
   test('that we can transform a piece through a full sequence', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.nextTransform();
     reusableGame.nextTransform();
@@ -268,7 +284,8 @@ describe('Game Object Creation', () => {
   });
 
   test('that we cant transform a piece through the ceiling', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     
     reusableGame.nextTransform();
     
@@ -279,7 +296,8 @@ describe('Game Object Creation', () => {
   });
 
   test('that we cant transform a piece through the wall', () => {
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.nextTransform();
     reusableGame.moveSideways("right");
@@ -298,7 +316,8 @@ describe('Game Object Creation', () => {
 
   test('that we cant transform a piece through an already placed piece', () => {
     reusableGame.gameArray[1][11] = "B";
-    reusableGame.putPieceOnBoard("tBlockShape");
+    reusableGame.nextPiece = "tBlockShape";
+    reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
     reusableGame.nextTransform();
     reusableGame.moveSideways("right");
