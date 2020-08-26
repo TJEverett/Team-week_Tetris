@@ -98,7 +98,7 @@ export class Game {
 
   findCompletedRows() {
     return this.gameArray.reduce(function(accumulator, current, idx){
-      if (current.every(item => {return !(item === "N")})){
+      if (current.every(item => {return !(item === "N");})){
         accumulator.push(idx);
       }
       return accumulator; 
@@ -109,7 +109,7 @@ export class Game {
     this.rows += arr.length;
     arr = arr.reverse();
     arr.map(item => this.gameArray.splice(item, 1));
-    arr.forEach(_ => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"])}); 
+    arr.forEach(_ => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);}); 
   }
   
   putPieceOnBoard() {

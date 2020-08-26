@@ -8,6 +8,9 @@ import soundfile2 from './noire.wav';
 
 let game = new Game(); 
 let interval;
+let pause = false;
+let globalTime = 1000;
+let points = 0;
 let colors = {
   "N": "black",
   "elShape": "#FF971C",
@@ -17,7 +20,6 @@ let colors = {
   "zShape": "#FF3212",
   "reverseZShape": "#72CB3B",
   "squareShape": "#f4f800"
-
 };
 
 $(document).ready(function () {
@@ -40,7 +42,7 @@ $(document).ready(function () {
   drawGrid();
   drawNextPiece();
   drawTextGrid();
-
+  game.gameOver = true;
 
   function drawTextGrid(){
     ctx3.fillStyle = "black";
@@ -74,6 +76,7 @@ $(document).ready(function () {
       }
     }
   }
+
   function drawRect(color,x,y,ctxGeneral) {
     ctxGeneral.fillStyle = color;
     ctxGeneral.fillRect(x,y, 30, 30);
@@ -87,13 +90,37 @@ $(document).ready(function () {
         myMusic.pause();
         myMusic2.play();
       }
+      if(game.rows >= points + 1){
+        points += 1;
+        clearInterval(interval);
+        globalTime = globalTime * .9;
+        runDownInterval();
+      }
+
       drawNextPiece();
       drawGrid();
       drawTextGrid();
-    }, 1000);
+    }, globalTime);
   }
 
+
+  $('#pause').click(function(){
+    if(pause === false){
+      pause = true;
+      myMusic.pause();
+      clearInterval(interval);
+    } else {
+      if(game.gameOver === false){
+        pause = false;
+        myMusic.play();
+        runDownInterval();
+      } 
+    }
+  });
+
   $('#start').click(function () {
+    globalTime = 1000;
+    points = 0;
     clearInterval(interval);
     game = new Game();
     gameArray = game.gameArray;
@@ -104,23 +131,26 @@ $(document).ready(function () {
     drawGrid();
     runDownInterval();
     myMusic.play();
+    pause = false;
   });
 
   function control(e) {
-    if (e.keyCode === 39){
-      game.moveSideways("right");
-      drawGrid();
-    }else if (e.keyCode === 38){
-      game.nextTransform();
-      drawGrid();
-    }else if (e.keyCode === 37){
-      game.moveSideways("left");
-      drawGrid();
-    }else if (e.keyCode === 40){
-      if(game.gameOver === false){
-        game.goDownByOne();
-        drawNextPiece();
+    if (pause === false){
+      if (e.keyCode === 39){
+        game.moveSideways("right");
         drawGrid();
+      }else if (e.keyCode === 38){
+        game.nextTransform();
+        drawGrid();
+      }else if (e.keyCode === 37){
+        game.moveSideways("left");
+        drawGrid();
+      }else if (e.keyCode === 40){
+        if(game.gameOver === false){
+          game.goDownByOne();
+          drawNextPiece();
+          drawGrid();
+        }
       }
     }
   }
