@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
+
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -36,6 +37,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "eslint-loader"
+      },
+      {
+        test: /\.mp3$|\.wav$/,
+        loader: 'file-loader',
+        query: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
       }
     ]
   }

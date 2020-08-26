@@ -3,6 +3,9 @@ import 'bootstrap';
 import './styles.css';
 import { Game } from './tetris.js';
 import {getNextGrid} from './nextgrid.js';
+import soundfile from './creeper.wav'; 
+import soundfile2 from './noire.wav'; 
+
 let game = new Game(); 
 let interval;
 let colors = {
@@ -18,12 +21,12 @@ let colors = {
 };
 
 $(document).ready(function () {
-  
-
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   
-  // let myMusic = new Audio("./Tetris.mp3");
+  let myMusic =  new Audio(soundfile);
+  let myMusic2 = new Audio(soundfile2);
+  myMusic.loop = true;
   let gameArray = game.gameArray;
 
   let canvas2 = document.getElementById("nextpiece");
@@ -81,6 +84,8 @@ $(document).ready(function () {
       game.goDownByOne();
       if(game.gameOver === true){
         clearInterval(interval);
+        myMusic.pause();
+        myMusic2.play();
       }
       drawNextPiece();
       drawGrid();
@@ -98,7 +103,7 @@ $(document).ready(function () {
     drawNextPiece();
     drawGrid();
     runDownInterval();
-    // myMusic.play("Tetris.mp3");
+    myMusic.play();
   });
 
   function control(e) {

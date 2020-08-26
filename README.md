@@ -1,8 +1,8 @@
-# __
+# _Team-week project_
 
-#### _, {//}_
+#### _Tetris_
 
-#### By _**Andrew Mickel**_
+#### A collaboration By _Matthew, Tristen, and Andrew_
 
 ## Description
 
@@ -11,9 +11,8 @@ __
 
 ## Setup/Installation Requirements
 
-*Download the files from []() and save it in a folder
-*Be sure you have boostraps downloaded on your computer. You can get the latest version from [https://getbootstrap.com](https://getbootstrap.com/docs/3.4/css/)
-*Also be sure you have JQuery saved to a folder on your computer somewhere. You can download it at [jquery.com](jquery.com/download/)
+*Download the files from [https://github.com/AndrewMMickel/Team-week_Tetris](https://github.com/AndrewMMickel/Team-week_Tetris) and save it in a folder
+*In your git console do "npm install"
 
 ## Known Bugs
 
