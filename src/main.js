@@ -130,7 +130,7 @@ $(document).ready(function () {
     points = 0;
     clearInterval(interval);
     game = new Game();
-    game.music.volume = 
+    game.music.volume = slider.value;
     gameArray = game.gameArray;
     game.assignRandomPiece();
     game.putPieceOnBoard();
