@@ -1,13 +1,12 @@
 import { Shape } from './shape.js';
 import { Transforms } from './transforms.js';
-import zap from './zap.wav';
+// import zap from './zap.wav';
 
 export class Game {
 
   constructor() {
-    this.music = new Audio(zap);
+    // this.music = new Audio(zap);
     this.gameOver = false;
-    this.currentState;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
     this.currentShape = "";
@@ -40,8 +39,8 @@ export class Game {
     ];
   }
 
-  drawOnBoard(arr, state) {
-    arr.forEach(a => this.gameArray[a[0]][a[1]] = state);
+  drawOnBoard(state) {
+    this.currentPiece.forEach(a => this.gameArray[a[0]][a[1]] = state);
   }
 
   returnTransFormedPosition(transform){
@@ -52,32 +51,20 @@ export class Game {
     return arr;
   }
 
-  drawTransform(transform){
-    this.erasePieceFromBoard();
-    let arr = this.returnTransFormedPosition(transform);
-    this.currentPiece = arr;
-    this.drawOnBoard(arr, "M");
-  }
-
   nextTransform(){
-    let length = Object.keys(this.transform[this.currentShape]).length - 1;
-    let next;
-
-    if(this.currentTransform === length){
-      next = this.transform[this.currentShape][0];
-    }else{ 
-      next = this.transform[this.currentShape][this.currentTransform + 1];
+    let nextV = this.currentTransform + 1;
+    let length = Object.keys(this.transform[this.currentShape]).length;
+    if (length -1 === this.currentTransform){
+      nextV = 0;
     }
-
-
-    if(!this.checkTransformMovement(next)){
-      if(this.currentTransform === length){
-        this.currentTransform = 0;
-      }else{
-        this.currentTransform += 1;
-      }
+    let next = this.transform[this.currentShape][nextV];
+    let mov = this.returnTransFormedPosition(next);
+    if(!this.checkTransformMovement(mov)){
+      this.erasePieceFromBoard();
+      this.currentTransform = nextV;
+      this.currentPiece = mov;
+      this.drawOnBoard("M");
     }
-    this.drawTransform(this.transform[this.currentShape][this.currentTransform]);
   }
 
   findCompletedRows() {
@@ -101,7 +88,7 @@ export class Game {
     this.currentShape = this.nextPiece;
     this.currentPiece = this.returnTransFormedPosition(this.transform[this.currentShape]["0"]);
     this.currentTransform = 0;
-    this.drawOnBoard(this.currentPiece, "M");
+    this.drawOnBoard("M");
   }
 
   assignRandomPiece(){
@@ -111,16 +98,16 @@ export class Game {
   }
 
   erasePieceFromBoard() {
-    this.drawOnBoard(this.currentPiece,"N");
+    this.drawOnBoard("N");
   }
 
   goDownByOne(){
     if(this.checkDownMovement()) {
       this.changeMsToColors();
       let arr = this.findCompletedRows();
-      if(arr.length>0){
-        this.music.play();
-      }
+      // if(arr.length>0){
+      //   this.music.play();
+      // }
       this.removeCompletedRowsAndAddNewRows(arr);
       this.putPieceOnBoard();
       this.assignRandomPiece();
@@ -129,7 +116,7 @@ export class Game {
       this.currentPiece = this.currentPiece.map(item =>
         [item[0]+1,item[1]]);
       this.centerPiece[0] += 1;
-      this.drawOnBoard(this.currentPiece,"M");
+      this.drawOnBoard("M");
     }
   }
 
@@ -148,12 +135,11 @@ export class Game {
       [item[0], item[1]+modifier]);
     
     this.centerPiece[1] += modifier;
-    this.drawOnBoard(this.currentPiece, "M");
+    this.drawOnBoard("M");
   }
 
-  checkTransformMovement(transform){
-    let imaginaryPiece = this.returnTransFormedPosition(transform);
-    let result = imaginaryPiece.some(item => (item[0] > 19) || (item[0] < 0)
+  checkTransformMovement(mov){
+    let result = mov.some(item => (item[0] > 19) || (item[0] < 0)
     || (item[1] > 11) || (item[1] < 0)
     || (!(this.gameArray[item[0]][item[1]] === "N")
     && !(this.gameArray[item[0]][item[1]] === "M")));
@@ -181,7 +167,7 @@ export class Game {
     if (this.isGameOver()){
       this.gameOver = true;
     }
-    this.drawOnBoard(this.currentPiece, this.currentShape);
+    this.drawOnBoard(this.currentShape);
   }
   
   isGameOver(){

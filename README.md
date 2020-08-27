@@ -6,7 +6,7 @@
 
 ## Description
 
-__
+_This is our first team project and for it we decided to creat Tetris from scratch. It will look and play like Tetris._
 __
 
 ## Setup/Installation Requirements
@@ -21,6 +21,7 @@ _No known bugs. Will update with changes_
 ## Specs
 |Spec|Input|Output|
 |----|------|------|
+|Draw a 12 x 20 grid using canvas|||
 
 
 ## Support and contact details
@@ -29,7 +30,7 @@ _email andrew.m.mickel@gmail.com if there are any concerns_
 
 ## Technologies Used
 
-_Uses arrays to take a given input and provides a result based on the input. Use of bootstraps and jquery included_
+_Heavy use of webpack, bootstraps, and javascript_
 
 ### License
 
