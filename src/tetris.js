@@ -1,11 +1,11 @@
 import { Shape } from './shape.js';
 import { Transforms } from './transforms.js';
-// import zap from './zap.wav';
+import zap from './zap.wav';
 
 export class Game {
 
   constructor() {
-    // this.music = new Audio(zap);
+    this.music = new Audio(zap);
     this.gameOver = false;
     this.currentPiece = [[],[],[],[]];
     this.centerPiece = [0,0];
@@ -105,9 +105,9 @@ export class Game {
     if(this.checkDownMovement()) {
       this.changeMsToColors();
       let arr = this.findCompletedRows();
-      // if(arr.length>0){
-      //   this.music.play();
-      // }
+      if(arr.length>0){
+        this.music.play();
+      }
       this.removeCompletedRowsAndAddNewRows(arr);
       this.putPieceOnBoard();
       this.assignRandomPiece();
