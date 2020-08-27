@@ -191,7 +191,6 @@ describe('Game Object Creation', () => {
     expect(reusableGame.gameArray[9][6]).toEqual("squareShape");
   });
 
-
   test('check if code is able to find completed rows', () => {
     reusableGame.gameArray[7] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
     reusableGame.gameArray[13] = ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B","B"];
@@ -246,18 +245,6 @@ describe('Game Object Creation', () => {
   });
 
   test('that we can draw transformed piece on board', () => {
-    reusableGame.nextPiece = "tBlockShape";
-    reusableGame.putPieceOnBoard();
-    reusableGame.goDownByOne();
-    reusableGame.drawTransform(reusableGame.transform["tBlockShape"]["1"]);
-    
-    expect(reusableGame.gameArray[0][5]).toEqual("M");
-    expect(reusableGame.gameArray[1][4]).toEqual("M");
-    expect(reusableGame.gameArray[2][5]).toEqual("M");
-    expect(reusableGame.gameArray[1][5]).toEqual("M");
-  });
-
-  test('that we can get the next transformed piece', () => {
     reusableGame.nextPiece = "tBlockShape";
     reusableGame.putPieceOnBoard();
     reusableGame.goDownByOne();
