@@ -42,7 +42,9 @@ describe('Game Object Creation', () => {
   test("should update the currentPiece variable to match the location of the new piece", () => {
     reusableGame.nextPiece = "squareShape";
     reusableGame.putPieceOnBoard();
-    expect(reusableGame.currentPiece).toEqual(reusableGame.shape.squareShape);
+    //act
+    let arr = reusableGame.returnTransFormedPosition(reusableGame.transform[reusableGame.currentShape]["0"]);
+    expect(reusableGame.currentPiece).toEqual(arr);
   });
 
   test('should remove piece from board', () => {
