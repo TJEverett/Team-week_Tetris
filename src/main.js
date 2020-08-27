@@ -36,7 +36,7 @@ $(document).ready(function () {
     myMusic.volume = this.value;
     myMusic2.volume = this.value;
     game.music.volume = this.value;
-  }
+  };
 
   let canvas2 = document.getElementById("nextpiece");
   var ctx2 = canvas2.getContext("2d");
@@ -97,8 +97,8 @@ $(document).ready(function () {
         myMusic.pause();
         myMusic2.play();
       }
-      if(game.rows >= points + 1){
-        points += 1;
+      if(game.rows >= points + 3){
+        points += 3;
         clearInterval(interval);
         globalTime = globalTime * .9;
         runDownInterval();
