@@ -1,9 +1,11 @@
 import { Shape } from './shape.js';
 import { Transforms } from './transforms.js';
+import zap from './zap.wav';
 
 export class Game {
 
   constructor() {
+    this.music = new Audio(zap);
     this.gameOver = false;
     this.currentState;
     this.currentPiece = [[],[],[],[]];
@@ -60,11 +62,14 @@ export class Game {
   nextTransform(){
     let length = Object.keys(this.transform[this.currentShape]).length - 1;
     let next;
+
     if(this.currentTransform === length){
       next = this.transform[this.currentShape][0];
     }else{ 
       next = this.transform[this.currentShape][this.currentTransform + 1];
     }
+
+
     if(!this.checkTransformMovement(next)){
       if(this.currentTransform === length){
         this.currentTransform = 0;
@@ -103,7 +108,6 @@ export class Game {
     let array = ["elShape","reverseElShape","tBlockShape","tetrisShape","zShape","reverseZShape","squareShape"];
     let random = Math.floor(Math.random()* 7);
     this.nextPiece = array[random];
-
   }
 
   erasePieceFromBoard() {
@@ -114,6 +118,9 @@ export class Game {
     if(this.checkDownMovement()) {
       this.changeMsToColors();
       let arr = this.findCompletedRows();
+      if(arr.length>0){
+        this.music.play();
+      }
       this.removeCompletedRowsAndAddNewRows(arr);
       this.putPieceOnBoard();
       this.assignRandomPiece();
