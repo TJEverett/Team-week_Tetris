@@ -26,10 +26,17 @@ $(document).ready(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   
-  let myMusic =  new Audio(soundfile);
+  let myMusic = new Audio(soundfile);
   let myMusic2 = new Audio(soundfile2);
   myMusic.loop = true;
   let gameArray = game.gameArray;
+  
+  let slider = document.getElementById("myVolume");
+  slider.oninput = function() {
+    myMusic.volume = this.value;
+    myMusic2.volume = this.value;
+    game.music.volume = this.value;
+  }
 
   let canvas2 = document.getElementById("nextpiece");
   var ctx2 = canvas2.getContext("2d");
@@ -123,6 +130,7 @@ $(document).ready(function () {
     points = 0;
     clearInterval(interval);
     game = new Game();
+    game.music.volume = 
     gameArray = game.gameArray;
     game.assignRandomPiece();
     game.putPieceOnBoard();
