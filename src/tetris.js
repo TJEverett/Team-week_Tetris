@@ -39,28 +39,7 @@ export class Game {
   }
 
   drawOnBoard(arr, state) {
-    // console.log("draw on board");
-    // console.log(arr);
-    let block1 = arr[0];
-    let y = block1[0];
-    let x = block1[1];
-   
-    this.gameArray[y][x] = state;
-  
-    let block2 = arr[1];
-    let y2 = block2[0];
-    let x2 = block2[1];
-    this.gameArray[y2][x2] = state; 
-
-    let block3 = arr[2];
-    let y3 = block3[0];
-    let x3 = block3[1];
-    this.gameArray[y3][x3] = state; 
-
-    let block4 = arr[3];
-    let y4 = block4[0];
-    let x4 = block4[1];
-    this.gameArray[y4][x4] = state;  
+    arr.forEach(a => this.gameArray[a[0]][a[1]] = state);
   }
 
   returnTransFormedPosition(transform){
@@ -113,14 +92,11 @@ export class Game {
   }
   
   putPieceOnBoard() {
-    let iv = this.shape[this.nextPiece];
-    this.currentPiece = this.shape[this.nextPiece].map(item => {
-      return [...item];
-    });
-    this.currentTransform = 0;
-    this.currentShape = this.nextPiece;
     this.centerPiece = [...this.shape[this.nextPiece + "C"]];
-    this.drawOnBoard(iv, "M");
+    this.currentShape = this.nextPiece;
+    this.currentPiece = this.returnTransFormedPosition(this.transform[this.currentShape]["0"]);
+    this.currentTransform = 0;
+    this.drawOnBoard(this.currentPiece, "M");
   }
 
   assignRandomPiece(){
