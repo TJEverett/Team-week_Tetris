@@ -80,7 +80,7 @@ export class Game {
     this.rows += arr.length;
     arr = arr.reverse();
     arr.map(item => this.gameArray.splice(item, 1));
-    arr.forEach(_ => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);}); 
+    arr.forEach(() => {this.gameArray.unshift(["N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"]);}); 
   }
   
   putPieceOnBoard() {
