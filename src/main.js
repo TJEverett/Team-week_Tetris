@@ -142,18 +142,33 @@ $(document).ready(function () {
     pause = false;
   });
 
-  function control(e) {
+
+  let keyState = {};
+  let delay = false;
+  window.addEventListener('keydown',function(e){
+    if(!(e.keyCode in keyState) || keyState[e.keyCode] == false){
+      delay = true;
+    }
+    keyState[e.keyCode] = true;
+  });    
+  window.addEventListener('keyup',function(e){
+    keyState[e.keyCode] = false;
+  });
+
+  
+  function gameLoop() {
     if (pause === false){
-      if (e.keyCode === 39){
-        game.moveSideways("right");
-        drawGrid();
-      }else if (e.keyCode === 38){
+      if (keyState[38]){
         game.nextTransform();
         drawGrid();
-      }else if (e.keyCode === 37){
+      } else if (keyState[39]){
+        game.moveSideways("right");
+        drawGrid();
+      }else if (keyState[37]){
         game.moveSideways("left");
         drawGrid();
-      }else if (e.keyCode === 40){
+      }
+      else if (keyState[40]){
         if(game.gameOver === false){
           game.goDownByOne();
           drawNextPiece();
@@ -161,7 +176,12 @@ $(document).ready(function () {
         }
       }
     }
+    let intervalValue = 50;
+    if(delay){
+      intervalValue = 200;
+    }
+    delay = false;
+    setTimeout(gameLoop, intervalValue);
   }
-
-  document.addEventListener('keydown', control);
+  gameLoop();
 });
