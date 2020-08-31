@@ -157,7 +157,7 @@ $(document).ready(function () {
 
   
   function gameLoop() {
-    if (pause === false){
+    if (pause === false && game.gameOver == false){
       if (keyState[38]){
         game.nextTransform();
         drawGrid();
@@ -169,11 +169,9 @@ $(document).ready(function () {
         drawGrid();
       }
       else if (keyState[40]){
-        if(game.gameOver === false){
-          game.goDownByOne();
-          drawNextPiece();
-          drawGrid();
-        }
+        game.goDownByOne();
+        drawNextPiece();
+        drawGrid();    
       }
     }
     let intervalValue = 50;
